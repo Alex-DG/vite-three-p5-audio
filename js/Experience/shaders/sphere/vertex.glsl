@@ -1,6 +1,9 @@
 uniform float uTime;
 uniform float uFrequency;
 uniform float uAmplitude;
+uniform float uSpeed;
+uniform float uNoiseDensity;
+uniform float uNoiseStrength;
 
 // uniform mat4 uProjectionMatrix;
 // uniform mat4 uModelViewMatrix;
@@ -8,7 +11,9 @@ uniform float uAmplitude;
 // attribute vec3 aPosition;
 // attribute vec3 aNormal;
 
+varying float vDistort;
 varying vec3 vNormal;
+varying float vDisplacement;
 varying float vNoise;
 
 //
@@ -189,13 +194,38 @@ float pnoise(vec3 P, vec3 rep)
   return 2.2 * n_xyz;
 }
 
+mat3 rotation3dY(float angle) {
+    float s = sin(angle);
+    float c = cos(angle);
+
+    return mat3(
+        c, 0.0, -s,
+        0.0, 1.0, 0.0,
+        s, 0.0, c
+    );
+}
+vec3 rotateY(vec3 v, float angle) {
+    return rotation3dY(angle) * v;
+}  
+
+
 void main() {
   float displacement = uAmplitude * pnoise(normal + (uTime * 0.05), vec3(0.0, 0.0, 0.0));
 
+  // float t = uTime * uSpeed * 0.005;
+  // float distortion = pnoise((normal + t) * uNoiseDensity, vec3(10.0)) * uNoiseStrength * 0.57;
+
+  // vec3 pos = position + (normal * distortion);
+  // float angle = sin(uv.y * uFrequency + t) * uAmplitude * 0.5;
+  // pos = rotateY(pos, angle);   
+
+  // vec4 newPosition = vec4(pos + displacement * normal, 1.0);
   vec4 newPosition = vec4(position + displacement * normal, 1.0);
 
   gl_Position = projectionMatrix * modelViewMatrix * newPosition;
 
   vNormal = normal;
   vNoise = pnoise(normal, vec3(0.0, 0.0, 0.0));
+  vDisplacement = displacement;
+  // vDistort = distortion;
 }
