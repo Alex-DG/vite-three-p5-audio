@@ -1,8 +1,6 @@
-# Vite Three Starter
+# Vite Three P5 Audio
 
-Quick and light three.js starter project made with vite
-
-[Live demo](https://vite-three-starter.vercel.app/)
+[Live demo](https://vite-three-p5-audio.vercel.app/)
 
 ## Setup
 
