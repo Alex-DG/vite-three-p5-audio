@@ -1,4 +1,4 @@
-import audioSrc from '../../assets/audio/03.mp3'
+import audioSrc from '../../assets/audio/02.mp3'
 
 const wrapper = window
 window.p5 = p5
