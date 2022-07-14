@@ -1,9 +1,7 @@
-import '../lib/p5/p5.min.js'
-import '../lib/p5/addons/p5.sound.min.js'
-
 import audioSrc from '../../assets/audio/01.mp3'
 
 const wrapper = window
+window.p5 = p5
 
 class P5Sound {
   constructor() {
