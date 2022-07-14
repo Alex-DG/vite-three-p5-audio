@@ -1,7 +1,10 @@
-import audioSrc from '../../assets/audio/01.mp3'
+import audioSrc from '../../assets/audio/03.mp3'
 
 const wrapper = window
 window.p5 = p5
+
+let test1
+let test2
 
 class P5Sound {
   constructor() {
@@ -48,7 +51,11 @@ class P5Sound {
 
   //////////////////////////////////////////////////////////////////////////////
 
-  update() {
+  getMapData() {
+    const volume = this.amp?.getLevel() // 0 to 1
+    // const freq = fft.getEnergy('highMid') // 0 to 255
+    let freq = this.fft?.getCentroid() // 0 to 255
+
     if (this.isPlaying) {
       this.fft.analyze()
 
@@ -57,8 +64,13 @@ class P5Sound {
       let freq = this.fft.getCentroid() // 0 to 255
       freq *= 0.001
 
-      this.mapF = map(freq, 0, 1, 0, 20)
-      this.mapA = map(volume, 0, 0.2, 0, 0.5)
+      const mapF = map(freq, 0, 1, 0, 20)
+      const mapA = map(volume, 0, 0.2, 0, 0.5)
+
+      return {
+        mapA,
+        mapF,
+      }
     }
   }
 }

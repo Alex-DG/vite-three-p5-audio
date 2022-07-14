@@ -1,13 +1,18 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-// import './P5Sound.js'
 import P5Sound from './P5Sound.js'
+import SphereMaterial from './SphereMaterial.js'
 
 class Experience {
   constructor(options) {
     this.scene = new THREE.Scene()
+    this.clock = new THREE.Clock()
+    this.lastElapsedTime = 0
+    this.deltaTime = 0
+    this.frameCount = 0
     this.container = options.domElement
+
     this.init()
   }
 
@@ -19,7 +24,6 @@ class Experience {
     this.setSizes()
     this.setRenderer()
     this.setCamera()
-    // this.setCube()
     this.setSphere()
     this.setP5Sound()
     this.setResize()
@@ -86,8 +90,9 @@ class Experience {
 
   setSphere() {
     const geometry = new THREE.SphereGeometry(0.8, 100, 100)
-    const material = new THREE.MeshNormalMaterial({ wireframe: true })
-    this.sphere = new THREE.Mesh(geometry, material)
+    this.material = new SphereMaterial()
+    // const material = new THREE.MeshNormalMaterial({ wireframe: true })
+    this.sphere = new THREE.Mesh(geometry, this.material)
     this.scene.add(this.sphere)
   }
 
@@ -100,12 +105,34 @@ class Experience {
   }
 
   //////////////////////////////////////////////////////////////////////////////
+  updateTime() {
+    this.frameCount += 1
+    this.elapsedTime = this.clock.getElapsedTime()
+    this.deltaTime = this.elapsedTime - this.lastElapsedTime
+    this.lastElapsedTime = this.elapsedTime
+  }
+
+  updateMaterial() {
+    this.material.uniforms.uTime.value = this.frameCount
+
+    const isPlaying = this.p5Sound?.isPlaying
+
+    if (isPlaying) {
+      const { mapF, mapA } = this.p5Sound.getMapData()
+      this.material.uniforms.uFrequency.value = mapF
+      this.material.uniforms.uAmplitude.value = mapA
+    } else {
+      this.material.uniforms.uFrequency.value = 0
+      this.material.uniforms.uAmplitude.value = 0
+    }
+  }
 
   update() {
+    this.updateTime()
+    this.updateMaterial()
+
     // Update controls
     this.controls.update()
-
-    this.p5Sound?.update()
 
     // Render
     this.renderer.render(this.scene, this.camera)

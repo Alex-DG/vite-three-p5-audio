@@ -1,19 +1,15 @@
-precision mediump float;
-
 uniform float uTime;
 uniform float uFrequency;
-uniform float uAmp;
+uniform float uAmplitude;
 
-uniform mat4 uProjectionMatrix;
-uniform mat4 uModelViewMatrix;
+// uniform mat4 uProjectionMatrix;
+// uniform mat4 uModelViewMatrix;
 
-attribute vec3 aPosition;
-attribute vec3 aNormal;
-attribute vec3 aUv;
+// attribute vec3 aPosition;
+// attribute vec3 aNormal;
 
 varying vec3 vNormal;
 varying float vNoise;
-varying float vDisplacement;
 
 //
 // GLSL textureless classic 3D noise "cnoise",
@@ -193,37 +189,13 @@ float pnoise(vec3 P, vec3 rep)
   return 2.2 * n_xyz;
 }
 
-mat3 rotation3dY(float angle) {
-    float s = sin(angle);
-    float c = cos(angle);
-
-    return mat3(
-        c, 0.0, -s,
-        0.0, 1.0, 0.0,
-        s, 0.0, c
-    );
-}
-vec3 rotateY(vec3 v, float angle) {
-    return rotation3dY(angle) * v;
-}  
-
 void main() {
-  float displacement = uAmp * pnoise(aNormal + (uTime * 0.05), vec3(0.0, 0.0, 0.0));
-  // float amplitude = uAmp;
+  float displacement = uAmplitude * pnoise(normal + (uTime * 0.05), vec3(0.0, 0.0, 0.0));
 
-  float strength = 0.05; // high to make the displacement less subtle
-  float t = uTime * 0.0025;
-  float distortion = pnoise((aNormal + t) * 1.7, vec3(10.0)) * strength;
+  vec4 newPosition = vec4(position + displacement * normal, 1.0);
 
-  vec3 pos = aPosition + (aNormal * distortion);
-  float angle = sin(aNormal.y * 4.0 + t) * uAmp;
-  pos = rotateY(pos, angle);   
+  gl_Position = projectionMatrix * modelViewMatrix * newPosition;
 
-  vec4 newPosition = vec4(pos + displacement * aNormal, 1.0);
-
-  gl_Position = uProjectionMatrix * uModelViewMatrix * newPosition;
-
-  vNormal = aNormal;
-  vDisplacement = displacement;
-  vNoise = pnoise(aNormal, vec3(0.0, 0.0, 0.0));
+  vNormal = normal;
+  vNoise = pnoise(normal, vec3(0.0, 0.0, 0.0));
 }
