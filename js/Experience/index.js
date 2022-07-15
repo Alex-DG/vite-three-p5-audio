@@ -77,8 +77,7 @@ class Experience {
       0.1,
       100
     )
-    // this.camera.position.x = 0.5
-    // this.camera.position.y = 0.5
+
     this.camera.position.z = 2
     this.scene.add(this.camera)
 
