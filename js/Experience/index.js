@@ -2,7 +2,11 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 import P5Sound from './P5Sound.js'
-import SphereMaterial from './SphereMaterial.js'
+import SphereMaterial from './shaders/sphere/SphereMaterial.js'
+import VideoFile from './VideoFile.js'
+import PlayButton from './PlayButton.js'
+import PlaneMaterial from './shaders/plane/PlaneMaterial.js'
+import { Vector2 } from 'three'
 
 class Experience {
   constructor(options) {
@@ -21,12 +25,16 @@ class Experience {
    */
   init() {
     this.bind()
+
     this.setSizes()
     this.setRenderer()
     this.setCamera()
-    this.setSphere()
+    // this.setSphere()
+    this.setVideo()
     this.setP5Sound()
+    this.setPlayButton()
     this.setResize()
+
     this.update()
 
     console.log('🤖', 'Experience initialized')
@@ -35,6 +43,7 @@ class Experience {
   bind() {
     this.resize = this.resize.bind(this)
     this.update = this.update.bind(this)
+    this.setPlane = this.setPlane.bind(this)
   }
 
   resize() {
@@ -68,9 +77,9 @@ class Experience {
       0.1,
       100
     )
-    this.camera.position.x = 1
-    this.camera.position.y = 1
-    this.camera.position.z = 1
+    // this.camera.position.x = 0.5
+    // this.camera.position.y = 0.5
+    this.camera.position.z = 2
     this.scene.add(this.camera)
 
     // Controls
@@ -89,15 +98,53 @@ class Experience {
   }
 
   setSphere() {
-    const geometry = new THREE.SphereGeometry(0.8, 100, 100)
+    const geometry = new THREE.SphereBufferGeometry(0.75, 100, 100)
     this.material = new SphereMaterial()
     // const material = new THREE.MeshNormalMaterial({ wireframe: true })
     this.sphere = new THREE.Mesh(geometry, this.material)
     this.scene.add(this.sphere)
   }
 
+  setPlane(videoTexture, textureSize) {
+    const segments = 32
+    const geometry = new THREE.PlaneBufferGeometry(2.8, 1.8, segments, segments)
+
+    const resolution = new Vector2(this.sizes.width, this.sizes.height)
+    this.planeMaterial = new PlaneMaterial(
+      videoTexture,
+      textureSize,
+      resolution
+    )
+    this.plane = new THREE.Mesh(geometry, this.planeMaterial)
+    this.plane.rotation.y = Math.PI / 7
+    this.plane.rotation.z = Math.PI / 50
+    this.scene.add(this.plane)
+  }
+
+  setVideo() {
+    this.videoFile = new VideoFile({
+      onLoadedSuccess: this.setPlane,
+    })
+  }
+
   setP5Sound() {
-    this.p5Sound = new P5Sound()
+    this.p5Sound = new P5Sound({
+      // audioSrc: '../../assets/audio/02.mp3',
+      // audioSrc: '../../assets/audio/Duh Fuse - French Fuse.mp3',
+      // audioSrc: '../../assets/audio/music_in_japan_2015_v1.mp3',
+
+      // audioSrc: '../../assets/audio/05.mp4',
+      // audioSrc: '../../assets/audio/02.mp3',
+      audioSrc: '../../assets/audio/Duh Fuse - French Fuse.mp3',
+      // audioSrc: '../../assets/audio/Samurai Champloo - Shiki No Uta.mp3',
+    })
+  }
+
+  setPlayButton() {
+    this.playBtn = new PlayButton({
+      video: this.videoFile,
+      audio: this.p5Sound,
+    })
   }
 
   setResize() {
@@ -105,6 +152,7 @@ class Experience {
   }
 
   //////////////////////////////////////////////////////////////////////////////
+
   updateTime() {
     this.frameCount += 1
     this.elapsedTime = this.clock.getElapsedTime()
@@ -127,9 +175,24 @@ class Experience {
     }
   }
 
+  updatePlaneMaterial() {
+    this.planeMaterial.uniforms.uTime.value = this.frameCount
+
+    if (this.playBtn.playing) {
+      const { mapF, mapA } = this.p5Sound.getMapData()
+      this.planeMaterial.uniforms.uFrequency.value = mapF
+      this.planeMaterial.uniforms.uAmplitude.value = mapA
+      this.planeMaterial.uniforms.uSpeed.value = 0.05
+    } else {
+      this.planeMaterial.uniforms.uFrequency.value = 0
+      this.planeMaterial.uniforms.uAmplitude.value = 0
+      this.planeMaterial.uniforms.uSpeed.value = 0
+    }
+  }
+
   update() {
     this.updateTime()
-    this.updateMaterial()
+    this.updatePlaneMaterial()
 
     // Update controls
     this.controls.update()

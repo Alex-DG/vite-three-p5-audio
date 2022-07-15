@@ -7,7 +7,8 @@ html,
 body {
   height: 100vh;
   font-family: Arial, Helvetica, Arial, sans-serif;
-  background-color: rgb(27, 27, 31);
+  /* background-color: rgb(27, 27, 31); */
+  background-color: rgb(238, 238, 238);
 }
 
 #app > .container {
@@ -55,16 +56,20 @@ body {
   outline: none;
 }
 
-#play-audio-btn {
+#play-btn {
   position: fixed;
   top: 0;
   right: 0;
   z-index: 2;
-  color: rgb(27, 27, 31);
-  background-color: rgb(247, 247, 247);
-  padding: 0.55em 0.85em;
-  margin: 0.5em;
+  /* color: rgb(233, 34, 71); */
+  color: hotpink;
+  border: 2px solid hotpink;
+  background-color: transparent;
+  padding: 0.65em 0.95em;
+  margin: 0.8em;
   border-radius: 0.35em;
   cursor: pointer;
   outline: none;
+  font-size: 1.25em;
+  font-weight: bold;
 }
