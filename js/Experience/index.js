@@ -97,19 +97,16 @@ class Experience {
   }
 
   setSphere() {
-    const geometry = new THREE.SphereBufferGeometry(4.5, 128, 128)
+    const geometry = new THREE.SphereBufferGeometry(4.5, 200, 200)
     this.sphereMaterial = new SphereMaterial()
-    // const material = new THREE.MeshNormalMaterial({ wireframe: true })
-
     this.sphere = new THREE.Mesh(geometry, this.sphereMaterial)
-    // this.sphere.position.x = 2
-    this.sphere.position.z = -5.5
+    this.sphere.position.z = -6
     this.scene.add(this.sphere)
   }
 
   setPlane(videoTexture, textureSize) {
     const segments = 32
-    const geometry = new THREE.PlaneBufferGeometry(3, 2, segments, segments)
+    const geometry = new THREE.PlaneBufferGeometry(3, 2.2, segments, segments)
 
     const resolution = new Vector2(this.sizes.width, this.sizes.height)
     this.planeMaterial = new PlaneMaterial(

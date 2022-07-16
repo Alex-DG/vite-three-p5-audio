@@ -5,12 +5,6 @@ uniform float uSpeed;
 uniform float uNoiseDensity;
 uniform float uNoiseStrength;
 
-// uniform mat4 uProjectionMatrix;
-// uniform mat4 uModelViewMatrix;
-
-// attribute vec3 aPosition;
-// attribute vec3 aNormal;
-
 varying float vDistort;
 varying vec3 vNormal;
 varying float vDisplacement;
@@ -212,20 +206,16 @@ vec3 rotateY(vec3 v, float angle) {
 void main() {
   float displacement = uAmplitude * pnoise(normal + (uTime * 0.05), vec3(0.0, 0.0, 0.0));
 
-  // float t = uTime * uSpeed * 0.005;
-  // float distortion = pnoise((normal + t) * uNoiseDensity, vec3(10.0)) * uNoiseStrength * 0.57;
-
-  // vec3 pos = position + (normal * distortion);
-  // float angle = sin(uv.y * uFrequency + t) * uAmplitude * 0.5;
-  // pos = rotateY(pos, angle);   
+  float t = uTime * uSpeed * 0.005;
+  float distortion = pnoise((normal + t) * uNoiseDensity, vec3(10.0)) * uNoiseStrength * uFrequency/100.;
 
   // vec4 newPosition = vec4(pos + displacement * normal, 1.0);
-  vec4 newPosition = vec4(position + displacement * normal, 1.0);
+  vec4 newPosition = vec4(position + distortion + displacement * normal, 1.0);
 
   gl_Position = projectionMatrix * modelViewMatrix * newPosition;
 
   vNormal = normal;
   vNoise = pnoise(normal, vec3(0.0, 0.0, 0.0));
   vDisplacement = displacement;
-  // vDistort = distortion;
+  vDistort = distortion;
 }

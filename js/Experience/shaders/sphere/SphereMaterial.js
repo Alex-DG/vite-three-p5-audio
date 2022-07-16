@@ -6,16 +6,16 @@ import fragmentShader from './fragment.glsl'
 const settings = {
   frequency: 0,
   amplitude: 0,
-  speed: 0.2,
+  speed: 0.5,
   density: 1.5,
-  strength: 0.2,
+  strength: 1.2,
   intensity: 7.0,
 }
 
 class SphereMaterial extends ShaderMaterial {
   constructor() {
     super({
-      // wireframe: true,
+      wireframe: true,
       uniforms: {
         uTime: { value: 0.0 },
         uFrequency: { value: settings.frequency },
