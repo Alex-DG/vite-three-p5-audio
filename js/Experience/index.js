@@ -109,7 +109,7 @@ class Experience {
 
   setPlane(videoTexture, textureSize) {
     const segments = 32
-    const geometry = new THREE.PlaneBufferGeometry(2.8, 1.8, segments, segments)
+    const geometry = new THREE.PlaneBufferGeometry(3, 2, segments, segments)
 
     const resolution = new Vector2(this.sizes.width, this.sizes.height)
     this.planeMaterial = new PlaneMaterial(
