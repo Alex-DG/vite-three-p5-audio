@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import P5Sound from './P5Sound.js'
 import SphereMaterial from './shaders/sphere/SphereMaterial.js'
 import VideoFile from './VideoFile.js'
-import PlayButton from './PlayButton.js'
+import AudioPlayer from './AudioPlayer.js'
 import PlaneMaterial from './shaders/plane/PlaneMaterial.js'
 import { Vector2 } from 'three'
 
@@ -29,7 +29,7 @@ class Experience {
     this.setSizes()
     this.setRenderer()
     this.setCamera()
-    // this.setSphere()
+    this.setSphere()
     this.setVideo()
     this.setP5Sound()
     this.setPlayButton()
@@ -97,10 +97,13 @@ class Experience {
   }
 
   setSphere() {
-    const geometry = new THREE.SphereBufferGeometry(0.75, 100, 100)
-    this.material = new SphereMaterial()
+    const geometry = new THREE.SphereBufferGeometry(4.5, 128, 128)
+    this.sphereMaterial = new SphereMaterial()
     // const material = new THREE.MeshNormalMaterial({ wireframe: true })
-    this.sphere = new THREE.Mesh(geometry, this.material)
+
+    this.sphere = new THREE.Mesh(geometry, this.sphereMaterial)
+    // this.sphere.position.x = 2
+    this.sphere.position.z = -5.5
     this.scene.add(this.sphere)
   }
 
@@ -115,7 +118,7 @@ class Experience {
       resolution
     )
     this.plane = new THREE.Mesh(geometry, this.planeMaterial)
-    this.plane.rotation.y = Math.PI / 7
+    this.plane.rotation.y = Math.PI / 10
     this.plane.rotation.z = Math.PI / 50
     this.scene.add(this.plane)
   }
@@ -128,19 +131,18 @@ class Experience {
 
   setP5Sound() {
     this.p5Sound = new P5Sound({
+      audioSrc: '../../assets/audio/04.mp3',
+
+      // audioSrc: '../../assets/audio/music_in_japan_2015_v1.mp3',
+      // audioSrc: '../../assets/audio/05.mp4',
+
       // audioSrc: '../../assets/audio/02.mp3',
       // audioSrc: '../../assets/audio/Duh Fuse - French Fuse.mp3',
-      // audioSrc: '../../assets/audio/music_in_japan_2015_v1.mp3',
-
-      // audioSrc: '../../assets/audio/05.mp4',
-      // audioSrc: '../../assets/audio/02.mp3',
-      audioSrc: '../../assets/audio/Duh Fuse - French Fuse.mp3',
-      // audioSrc: '../../assets/audio/Samurai Champloo - Shiki No Uta.mp3',
     })
   }
 
   setPlayButton() {
-    this.playBtn = new PlayButton({
+    this.player = new AudioPlayer({
       video: this.videoFile,
       audio: this.p5Sound,
     })
@@ -159,25 +161,23 @@ class Experience {
     this.lastElapsedTime = this.elapsedTime
   }
 
-  updateMaterial() {
-    this.material.uniforms.uTime.value = this.frameCount
+  updateSphereMaterial() {
+    this.sphereMaterial.uniforms.uTime.value = this.frameCount
 
-    const isPlaying = this.p5Sound?.isPlaying
-
-    if (isPlaying) {
-      const { mapF, mapA } = this.p5Sound.getMapData()
-      this.material.uniforms.uFrequency.value = mapF
-      this.material.uniforms.uAmplitude.value = mapA
+    if (this.player.playing) {
+      const { smapF, smapA } = this.p5Sound.getMapData()
+      this.sphereMaterial.uniforms.uFrequency.value = smapF
+      this.sphereMaterial.uniforms.uAmplitude.value = smapA
     } else {
-      this.material.uniforms.uFrequency.value = 0
-      this.material.uniforms.uAmplitude.value = 0
+      this.sphereMaterial.uniforms.uFrequency.value = 0
+      this.sphereMaterial.uniforms.uAmplitude.value = 0
     }
   }
 
   updatePlaneMaterial() {
     this.planeMaterial.uniforms.uTime.value = this.frameCount
 
-    if (this.playBtn.playing) {
+    if (this.player.playing) {
       const { mapF, mapA } = this.p5Sound.getMapData()
       this.planeMaterial.uniforms.uFrequency.value = mapF
       this.planeMaterial.uniforms.uAmplitude.value = mapA
@@ -192,6 +192,7 @@ class Experience {
   update() {
     this.updateTime()
     this.updatePlaneMaterial()
+    this.updateSphereMaterial()
 
     // Update controls
     this.controls.update()

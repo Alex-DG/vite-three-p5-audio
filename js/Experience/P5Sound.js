@@ -7,6 +7,7 @@ window.p5 = p5
 class P5Sound {
   constructor(options) {
     this.audioUrl = options.audioSrc || audioSrc
+    this.currentVolume = 1.0
     this.init()
   }
 
@@ -43,6 +44,12 @@ class P5Sound {
     document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`
   }
 
+  setVolume(value) {
+    const volume = parseFloat(value / 100)
+    this.currentVolume = volume
+    this.audio.setVolume(volume)
+  }
+
   getMapData() {
     if (this.audio?.isPlaying()) {
       this.fft.analyze()
@@ -53,8 +60,8 @@ class P5Sound {
       let freq = this.fft.getCentroid() // 0 to 255
       freq *= 0.001
 
-      // const mapF = map(freq, 0, 1, 0, 20)
-      // const mapA = map(volume, 0, 0.2, 0, 0.5)
+      const smapF = map(freq, 0, 1, 0, 20)
+      const smapA = map(volume, 0, 0.2, 0, 0.5)
 
       // const mapA = map(volume, 0, 1, 0, 0.05)
       // const mapF = map(freq, 0, 1, 0, 10)
@@ -64,6 +71,8 @@ class P5Sound {
       return {
         mapA,
         mapF,
+        smapF,
+        smapA,
       }
     }
   }

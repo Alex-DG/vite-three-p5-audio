@@ -15,7 +15,7 @@ const settings = {
 class SphereMaterial extends ShaderMaterial {
   constructor() {
     super({
-      wireframe: true,
+      // wireframe: true,
       uniforms: {
         uTime: { value: 0.0 },
         uFrequency: { value: settings.frequency },

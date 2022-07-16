@@ -18,3 +18,10 @@ yarn dev
 # Build for production in the dist/ directory
 yarn build
 ```
+
+TODO:
+
+[ ] find a music
+[ ] add bottom credits
+[X] add volume controller
+[ ] add text effects
