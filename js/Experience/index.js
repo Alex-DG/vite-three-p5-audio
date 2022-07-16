@@ -118,6 +118,7 @@ class Experience {
       resolution
     )
     this.plane = new THREE.Mesh(geometry, this.planeMaterial)
+    this.plane.position.x = -0.5
     this.plane.rotation.y = Math.PI / 10
     this.plane.rotation.z = Math.PI / 50
     this.scene.add(this.plane)
