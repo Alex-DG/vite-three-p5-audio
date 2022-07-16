@@ -1,12 +1,10 @@
 import { VideoTexture, LinearFilter, RGBAFormat, Vector2 } from 'three'
+import Loader from './Loader'
 
 import videoSrc from '../../assets/video/video_in_japan_2015_wo_audio_v1.mp4'
-import audioSrc from '../../assets/audio/Duh Fuse - French Fuse.mp3'
 
 class VideoFile {
   constructor(options) {
-    this.videoUrl = new URL(options?.videoSrc || videoSrc, import.meta.url)
-    this.audioUrl = new URL(options?.audioSrc || audioSrc, import.meta.url)
     this.onLoadedSuccess = options.onLoadedSuccess
 
     this.bind()
@@ -19,13 +17,12 @@ class VideoFile {
 
   init() {
     this.setVideo()
-    this.setPlayButton()
   }
 
   //////////////////////////////////////////////////////////////////////////////
 
   onVideoLoaded() {
-    console.log('📽️', 'video loaded')
+    console.log('📂📽️', 'Video ready')
 
     const texture = this.createVideoTexture()
     const textureSize = new Vector2(
@@ -36,6 +33,8 @@ class VideoFile {
     this.video.style.display = 'none'
 
     this.play()
+
+    Loader.loaded()
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -45,10 +44,6 @@ class VideoFile {
     this.video.src = videoSrc
     this.video.load()
     this.video.onloadeddata = this.onVideoLoaded()
-  }
-
-  setPlayButton() {
-    this.playBtn = document.getElementById('play-btn')
   }
 
   //////////////////////////////////////////////////////////////////////////////

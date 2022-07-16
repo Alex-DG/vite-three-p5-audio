@@ -10,6 +10,8 @@ import { Vector2 } from 'three'
 
 class Experience {
   constructor(options) {
+    console.log('🤖', 'Starting experience...')
+
     this.scene = new THREE.Scene()
     this.clock = new THREE.Clock()
     this.lastElapsedTime = 0
@@ -36,8 +38,6 @@ class Experience {
     this.setResize()
 
     this.update()
-
-    console.log('🤖', 'Experience initialized')
   }
 
   bind() {
@@ -130,15 +130,7 @@ class Experience {
   }
 
   setP5Sound() {
-    this.p5Sound = new P5Sound({
-      audioSrc: '../../assets/audio/04.mp3',
-
-      // audioSrc: '../../assets/audio/music_in_japan_2015_v1.mp3',
-      // audioSrc: '../../assets/audio/05.mp4',
-
-      // audioSrc: '../../assets/audio/02.mp3',
-      // audioSrc: '../../assets/audio/Duh Fuse - French Fuse.mp3',
-    })
+    this.p5Sound = new P5Sound()
   }
 
   setPlayButton() {

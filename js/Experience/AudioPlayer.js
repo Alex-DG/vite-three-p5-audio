@@ -2,6 +2,7 @@ class AudioPlayer {
   constructor(options) {
     this.audio = options.audio
     this.video = options.video
+
     this.playing = false
     this.audioEnabled = true
 

@@ -21,7 +21,9 @@ yarn build
 
 TODO:
 
-[ ] find a music
+[X] find a music
 [ ] add bottom credits
 [X] add volume controller
 [ ] add text effects
+[ ] fix bug: music end before video
+[X] Loader

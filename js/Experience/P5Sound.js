@@ -1,12 +1,11 @@
 import audioSrc from '../../assets/audio/Duh Fuse - French Fuse.mp3'
-// import audioSrc from '../../assets/audio/02.mp3'
+import Loader from './Loader'
 
 const wrapper = window
 window.p5 = p5
 
 class P5Sound {
-  constructor(options) {
-    this.audioUrl = options.audioSrc || audioSrc
+  constructor() {
     this.currentVolume = 1.0
     this.init()
   }
@@ -15,7 +14,7 @@ class P5Sound {
     this.bind()
 
     wrapper.setup = () => {
-      loadSound(this.audioUrl, this.onAudioLoaded)
+      loadSound(audioSrc, this.onAudioLoaded)
       this.amp = new p5.Amplitude()
       this.fft = new p5.FFT()
       this.beatDetect = new p5.PeakDetect(20, 20000, 0.3)
@@ -31,8 +30,9 @@ class P5Sound {
   //////////////////////////////////////////////////////////////////////////////
 
   onAudioLoaded(audio) {
-    console.log('📂🎵', 'Audio loaded', { audio })
+    console.log('📂🎵', 'Audio ready')
     this.audio = audio
+    Loader.loaded()
   }
 
   //////////////////////////////////////////////////////////////////////////////
