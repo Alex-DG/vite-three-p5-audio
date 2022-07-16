@@ -56,15 +56,12 @@ class P5Sound {
       this.beatDetect.update(this.fft)
 
       const volume = this.amp.getLevel() // 0 to 1
-      // const freq = fft.getEnergy('highMid')
       let freq = this.fft.getCentroid() // 0 to 255
-      freq *= 0.001
+      freq *= 0.0015
 
-      const smapF = map(freq, 0, 1, 0, 20)
       const smapA = map(volume, 0, 0.2, 0, 0.5)
+      const smapF = map(freq, 0, 1, 0, 10)
 
-      // const mapA = map(volume, 0, 1, 0, 0.05)
-      // const mapF = map(freq, 0, 1, 0, 10)
       const mapA = map(volume, 0, 1, 0, 0.056)
       const mapF = map(freq, 0, 1, 0, 6)
 
