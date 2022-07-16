@@ -97,7 +97,8 @@ class Experience {
   }
 
   setSphere() {
-    const geometry = new THREE.SphereBufferGeometry(4.5, 200, 200)
+    const segments = 200
+    const geometry = new THREE.SphereBufferGeometry(4.5, segments, segments)
     this.sphereMaterial = new SphereMaterial()
     this.sphere = new THREE.Mesh(geometry, this.sphereMaterial)
     this.sphere.position.z = -6
@@ -105,7 +106,7 @@ class Experience {
   }
 
   setPlane(videoTexture, textureSize) {
-    const segments = 32
+    const segments = 64
     const geometry = new THREE.PlaneBufferGeometry(3, 2.2, segments, segments)
 
     const resolution = new Vector2(this.sizes.width, this.sizes.height)

@@ -1,4 +1,4 @@
-import { ShaderMaterial, Vector2 } from 'three'
+import { ShaderMaterial, DoubleSide } from 'three'
 
 import vertexShader from './vertex.glsl'
 import fragmentShader from './fragment.glsl'
@@ -24,8 +24,7 @@ class PlaneMaterial extends ShaderMaterial {
         uResolution: { value: resolution },
         uTextureResolution: { value: textureSize },
       },
-      // blending: AdditiveBlending,
-      // transparent: true,
+      side: DoubleSide,
       vertexShader,
       fragmentShader,
     })

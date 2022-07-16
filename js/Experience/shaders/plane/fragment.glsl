@@ -1,19 +1,3 @@
-
-// varying vec2 vTexCoord;
-
-// uniform sampler2D uTexture;
-// uniform vec2 uTextureResolution;
-
-// uniform vec2 uResolution;
-
-// uniform float uTime;
-// uniform float uFrequency;
-// uniform float uAmp;
-
-// uniform sampler2D uDmap;
-
-////////////////////////////////////////////////////////////////////////////////
-
 uniform sampler2D uTexture;
 
 uniform vec2 uTextureResolution;
@@ -44,7 +28,7 @@ void main() {
 
   float frequency = uFrequency;
   float amplitude = uAmplitude;
-  float elevationPower = vElevation * 0.15;
+  float elevationPower = vElevation * 0.2;
 
   float distortion = sin(uv.y * frequency + (uTime * 0.01)) * amplitude + elevationPower;
 
