@@ -1,0 +1,41 @@
+.player {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  height: 2em;
+
+  margin: 0.8em;
+  padding: 0.65em 0.95em;
+
+  border: 2px solid rgb(233, 34, 71);
+  border-radius: 2em;
+  background: rgb(255, 62, 159, 0.4);
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+}
+
+.player > #player-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.player > .volume {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.player > .volume > #player-volume {
+  width: 100px;
+}
+.player > .volume > #icon-volume {
+  padding: 0 0 0.2em;
+  cursor: pointer;
+}
