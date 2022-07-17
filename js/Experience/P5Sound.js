@@ -1,16 +1,12 @@
-import audioSrc from '../../assets/audio/02.mp3'
+import audioSrc from '../../assets/audio/Duh Fuse_French Fuse.mp3'
+import Loader from './Loader'
 
 const wrapper = window
 window.p5 = p5
 
-let test1
-let test2
-
 class P5Sound {
   constructor() {
-    this.playBtn = document.getElementById('play-audio-btn')
-    this.isPlaying = false
-
+    this.currentVolume = 1.0
     this.init()
   }
 
@@ -21,57 +17,69 @@ class P5Sound {
       loadSound(audioSrc, this.onAudioLoaded)
       this.amp = new p5.Amplitude()
       this.fft = new p5.FFT()
+      this.beatDetect = new p5.PeakDetect(20, 20000, 0.3)
+      this.beatDetect.onPeak(this.onTriggerBeat)
     }
   }
 
   bind() {
     this.onAudioLoaded = this.onAudioLoaded.bind(this)
-    this.onTogglePlay = this.onTogglePlay.bind(this)
+    this.onTriggerBeat = this.onTriggerBeat.bind(this)
   }
 
   //////////////////////////////////////////////////////////////////////////////
-
-  onTogglePlay() {
-    if (this.audio?.isPlaying()) {
-      this.audio?.pause()
-      this.playBtn.innerText = 'Play'
-      this.isPlaying = false
-    } else {
-      this.audio?.play()
-      this.playBtn.innerText = 'Pause'
-      this.isPlaying = true
-    }
-  }
 
   onAudioLoaded(audio) {
-    console.log('📂🎵', 'Audio loaded', { audio })
+    console.log('📂🎵', 'Audio ready')
     this.audio = audio
-    this.playBtn.addEventListener('click', this.onTogglePlay)
+    Loader.loaded()
   }
 
   //////////////////////////////////////////////////////////////////////////////
 
+  onTriggerBeat() {
+    const r = random(255)
+    const g = random(255)
+    const b = random(200)
+    document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`
+  }
+
+  setVolume(value) {
+    const volume = parseFloat(value / 100)
+    this.currentVolume = volume
+    this.audio.setVolume(volume)
+  }
+
   getMapData() {
-    const volume = this.amp?.getLevel() // 0 to 1
-    // const freq = fft.getEnergy('highMid') // 0 to 255
-    let freq = this.fft?.getCentroid() // 0 to 255
+    // if (this.audio?.isPlaying()) {
+    this.fft.analyze()
+    this.beatDetect.update(this.fft)
 
-    if (this.isPlaying) {
-      this.fft.analyze()
+    const volume = this.amp.getLevel() // 0 to 1
+    let freq = this.fft.getCentroid() // 0 to 255
+    freq *= 0.0015
 
-      const volume = this.amp.getLevel() // 0 to 1
-      // const freq = fft.getEnergy('highMid') // 0 to 255
-      let freq = this.fft.getCentroid() // 0 to 255
-      freq *= 0.001
+    const smapA = map(volume, 0, 0.2, 0, 0.5)
+    const smapF = map(freq, 0, 1, 0, 10)
 
-      const mapF = map(freq, 0, 1, 0, 20)
-      const mapA = map(volume, 0, 0.2, 0, 0.5)
+    const mapA = map(volume, 0, 1, 0, 0.056)
+    const mapF = map(freq, 0, 1, 0, 6)
 
-      return {
-        mapA,
-        mapF,
-      }
+    return {
+      mapA,
+      mapF,
+      smapF,
+      smapA,
     }
+    // }
+  }
+
+  play() {
+    this.audio?.play()
+  }
+
+  pause() {
+    this.audio?.pause()
   }
 }
 

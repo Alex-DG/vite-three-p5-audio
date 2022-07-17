@@ -2,10 +2,16 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 import P5Sound from './P5Sound.js'
-import SphereMaterial from './SphereMaterial.js'
+import SphereMaterial from './shaders/sphere/SphereMaterial.js'
+import VideoFile from './VideoFile.js'
+import AudioPlayer from './AudioPlayer.js'
+import PlaneMaterial from './shaders/plane/PlaneMaterial.js'
+import { Vector2 } from 'three'
 
 class Experience {
   constructor(options) {
+    console.log('🤖', 'Starting experience...')
+
     this.scene = new THREE.Scene()
     this.clock = new THREE.Clock()
     this.lastElapsedTime = 0
@@ -21,20 +27,23 @@ class Experience {
    */
   init() {
     this.bind()
+
     this.setSizes()
     this.setRenderer()
     this.setCamera()
     this.setSphere()
+    this.setVideo()
     this.setP5Sound()
+    this.setAudioPlayer()
     this.setResize()
-    this.update()
 
-    console.log('🤖', 'Experience initialized')
+    this.update()
   }
 
   bind() {
     this.resize = this.resize.bind(this)
     this.update = this.update.bind(this)
+    this.setPlane = this.setPlane.bind(this)
   }
 
   resize() {
@@ -68,9 +77,8 @@ class Experience {
       0.1,
       100
     )
-    this.camera.position.x = 1
-    this.camera.position.y = 1
-    this.camera.position.z = 1
+
+    this.camera.position.z = 2
     this.scene.add(this.camera)
 
     // Controls
@@ -89,15 +97,46 @@ class Experience {
   }
 
   setSphere() {
-    const geometry = new THREE.SphereGeometry(0.8, 100, 100)
-    this.material = new SphereMaterial()
-    // const material = new THREE.MeshNormalMaterial({ wireframe: true })
-    this.sphere = new THREE.Mesh(geometry, this.material)
+    const segments = 200
+    const geometry = new THREE.SphereBufferGeometry(4.5, segments, segments)
+    this.sphereMaterial = new SphereMaterial()
+    this.sphere = new THREE.Mesh(geometry, this.sphereMaterial)
+    this.sphere.position.z = -6
     this.scene.add(this.sphere)
+  }
+
+  setPlane(videoTexture, textureSize) {
+    const segments = 64
+    const geometry = new THREE.PlaneBufferGeometry(3, 2.2, segments, segments)
+
+    const resolution = new Vector2(this.sizes.width, this.sizes.height)
+    this.planeMaterial = new PlaneMaterial(
+      videoTexture,
+      textureSize,
+      resolution
+    )
+    this.plane = new THREE.Mesh(geometry, this.planeMaterial)
+    this.plane.position.x = -0.5
+    this.plane.rotation.y = Math.PI / 10
+    this.plane.rotation.z = Math.PI / 50
+    this.scene.add(this.plane)
+  }
+
+  setVideo() {
+    this.videoFile = new VideoFile({
+      onLoadedSuccess: this.setPlane,
+    })
   }
 
   setP5Sound() {
     this.p5Sound = new P5Sound()
+  }
+
+  setAudioPlayer() {
+    this.player = new AudioPlayer({
+      video: this.videoFile,
+      audio: this.p5Sound,
+    })
   }
 
   setResize() {
@@ -105,6 +144,7 @@ class Experience {
   }
 
   //////////////////////////////////////////////////////////////////////////////
+
   updateTime() {
     this.frameCount += 1
     this.elapsedTime = this.clock.getElapsedTime()
@@ -112,24 +152,38 @@ class Experience {
     this.lastElapsedTime = this.elapsedTime
   }
 
-  updateMaterial() {
-    this.material.uniforms.uTime.value = this.frameCount
+  updateSphereMaterial() {
+    this.sphereMaterial.uniforms.uTime.value = this.frameCount
 
-    const isPlaying = this.p5Sound?.isPlaying
-
-    if (isPlaying) {
-      const { mapF, mapA } = this.p5Sound.getMapData()
-      this.material.uniforms.uFrequency.value = mapF
-      this.material.uniforms.uAmplitude.value = mapA
+    if (this.player.playing) {
+      const { smapF, smapA } = this.p5Sound.getMapData()
+      this.sphereMaterial.uniforms.uFrequency.value = smapF
+      this.sphereMaterial.uniforms.uAmplitude.value = smapA
     } else {
-      this.material.uniforms.uFrequency.value = 0
-      this.material.uniforms.uAmplitude.value = 0
+      this.sphereMaterial.uniforms.uFrequency.value = 0
+      this.sphereMaterial.uniforms.uAmplitude.value = 0
+    }
+  }
+
+  updatePlaneMaterial() {
+    this.planeMaterial.uniforms.uTime.value = this.frameCount
+
+    if (this.player.playing) {
+      const { mapF, mapA } = this.p5Sound.getMapData()
+      this.planeMaterial.uniforms.uFrequency.value = mapF
+      this.planeMaterial.uniforms.uAmplitude.value = mapA
+      this.planeMaterial.uniforms.uSpeed.value = 0.05
+    } else {
+      this.planeMaterial.uniforms.uFrequency.value = 0
+      this.planeMaterial.uniforms.uAmplitude.value = 0
+      this.planeMaterial.uniforms.uSpeed.value = 0
     }
   }
 
   update() {
     this.updateTime()
-    this.updateMaterial()
+    this.updatePlaneMaterial()
+    this.updateSphereMaterial()
 
     // Update controls
     this.controls.update()

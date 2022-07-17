@@ -7,7 +7,8 @@ html,
 body {
   height: 100vh;
   font-family: Arial, Helvetica, Arial, sans-serif;
-  background-color: rgb(27, 27, 31);
+  /* background-color: rgb(27, 27, 31); */
+  background-color: rgb(255 220 255);
 }
 
 #app > .container {
@@ -55,16 +56,6 @@ body {
   outline: none;
 }
 
-#play-audio-btn {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 2;
-  color: rgb(27, 27, 31);
-  background-color: rgb(247, 247, 247);
-  padding: 0.55em 0.85em;
-  margin: 0.5em;
-  border-radius: 0.35em;
-  cursor: pointer;
-  outline: none;
+.hide {
+  opacity: 0 !important;
 }
