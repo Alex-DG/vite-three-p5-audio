@@ -1,7 +1,7 @@
 import { VideoTexture, LinearFilter, RGBAFormat, Vector2 } from 'three'
 import Loader from './Loader'
 
-import videoSrc from '../../assets/video/video_in_japan_2015_wo_audio_v1.mp4'
+import videoSrc from '../../assets/video/tokyo_in_2015.mp4'
 
 class VideoFile {
   constructor(options) {

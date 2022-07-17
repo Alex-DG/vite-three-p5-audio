@@ -8,7 +8,7 @@ body {
   height: 100vh;
   font-family: Arial, Helvetica, Arial, sans-serif;
   /* background-color: rgb(27, 27, 31); */
-  background-color: rgb(238, 238, 238);
+  background-color: rgb(255 220 255);
 }
 
 #app > .container {
@@ -100,4 +100,32 @@ body {
 
 .loading {
   pointer-events: none;
+}
+
+.hide {
+  opacity: 0 !important;
+}
+
+.loading-layout {
+  position: fixed;
+  opacity: 1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(223, 183, 223);
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+
+  transition: opacity 0.5s ease-out;
+  -webkit-transition: opacity 0.5s ease-out;
+}
+
+.loading-layout > h1 {
+  color: aliceblue;
 }

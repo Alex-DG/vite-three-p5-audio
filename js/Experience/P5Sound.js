@@ -1,4 +1,4 @@
-import audioSrc from '../../assets/audio/Duh Fuse - French Fuse.mp3'
+import audioSrc from '../../assets/audio/Duh Fuse_French Fuse.mp3'
 import Loader from './Loader'
 
 const wrapper = window
@@ -51,27 +51,27 @@ class P5Sound {
   }
 
   getMapData() {
-    if (this.audio?.isPlaying()) {
-      this.fft.analyze()
-      this.beatDetect.update(this.fft)
+    // if (this.audio?.isPlaying()) {
+    this.fft.analyze()
+    this.beatDetect.update(this.fft)
 
-      const volume = this.amp.getLevel() // 0 to 1
-      let freq = this.fft.getCentroid() // 0 to 255
-      freq *= 0.0015
+    const volume = this.amp.getLevel() // 0 to 1
+    let freq = this.fft.getCentroid() // 0 to 255
+    freq *= 0.0015
 
-      const smapA = map(volume, 0, 0.2, 0, 0.5)
-      const smapF = map(freq, 0, 1, 0, 10)
+    const smapA = map(volume, 0, 0.2, 0, 0.5)
+    const smapF = map(freq, 0, 1, 0, 10)
 
-      const mapA = map(volume, 0, 1, 0, 0.056)
-      const mapF = map(freq, 0, 1, 0, 6)
+    const mapA = map(volume, 0, 1, 0, 0.056)
+    const mapF = map(freq, 0, 1, 0, 6)
 
-      return {
-        mapA,
-        mapF,
-        smapF,
-        smapA,
-      }
+    return {
+      mapA,
+      mapF,
+      smapF,
+      smapA,
     }
+    // }
   }
 
   play() {

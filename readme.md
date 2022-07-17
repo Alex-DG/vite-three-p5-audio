@@ -24,6 +24,7 @@ TODO:
 [X] find a music
 [ ] add bottom credits
 [X] add volume controller
+[X] optimise assets
 [ ] add text effects
-[ ] fix bug: music end before video
+[X] fix bug: music end before video
 [X] Loader

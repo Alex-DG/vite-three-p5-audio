@@ -34,7 +34,7 @@ class Experience {
     this.setSphere()
     this.setVideo()
     this.setP5Sound()
-    this.setPlayButton()
+    this.setAudioPlayer()
     this.setResize()
 
     this.update()
@@ -132,7 +132,7 @@ class Experience {
     this.p5Sound = new P5Sound()
   }
 
-  setPlayButton() {
+  setAudioPlayer() {
     this.player = new AudioPlayer({
       video: this.videoFile,
       audio: this.p5Sound,
