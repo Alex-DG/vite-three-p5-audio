@@ -129,3 +129,28 @@ body {
 .loading-layout > h1 {
   color: aliceblue;
 }
+
+.credits {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+
+  margin: 1em;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2em;
+
+  font-style: italic;
+  color: rgb(27, 27, 31, 70%);
+}
+
+.credits > span > a {
+  color: rgb(27, 27, 31, 70%);
+}
+
+.credits > span > a:hover {
+  color: rgb(27, 27, 31);
+}
