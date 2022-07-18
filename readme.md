@@ -24,6 +24,7 @@ TODO:
 [X] add volume controller
 [X] optimise assets
 [ ] add text effects
-[ ] add particles bottom from top
+[X] refactor merge p5js with three js
+[ ] add rec in background
 [X] fix bug: music end before video
 [X] Loader

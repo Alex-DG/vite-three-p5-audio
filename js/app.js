@@ -1,9 +1,9 @@
 import '../styles/app.css'
-import '../styles/credits.css'
-import '../styles/loading.css'
-import '../styles/player.css'
 
-import { Loading, AudioPlayer, Credits, Video } from './Dom'
+import { Loading } from './Dom/Loading'
+import { Player } from './Dom/Player'
+import { Credits } from './Dom/Credits'
+import { Video } from './Dom/Video'
 
 import Experience from './Experience'
 
@@ -11,11 +11,17 @@ console.log('🎉', 'Project generated using vite-three-starter')
 console.log(':: https://github.com/Alex-DG/vite-three-starter ::')
 
 /**
+ * P5js
+ */
+const sketch = window
+window.p5 = p5
+
+/**
  * Dom
  */
 document.querySelector('#app').innerHTML = `
     ${Loading}
-    ${AudioPlayer}
+    ${Player}
     ${Credits}
     ${Video}
 `
@@ -25,4 +31,5 @@ document.querySelector('#app').innerHTML = `
  */
 window.experience = new Experience({
   domElement: document.getElementById('experience'),
+  sketch,
 })

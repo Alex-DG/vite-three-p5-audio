@@ -3,27 +3,8 @@ import Loader from './Loader'
 
 import videoSrc from '../../assets/video/tokyo_in_2015.mp4'
 
-class VideoFile {
-  constructor(options) {
-    this.onLoadedSuccess = options.onLoadedSuccess
-
-    this.bind()
-    this.init()
-  }
-
-  bind() {
-    this.onVideoLoaded = this.onVideoLoaded.bind(this)
-  }
-
-  init() {
-    this.setVideo()
-  }
-
-  //////////////////////////////////////////////////////////////////////////////
-
+class _Video {
   onVideoLoaded() {
-    console.log('📂📽️', 'Video ready')
-
     const texture = this.createVideoTexture()
     const textureSize = new Vector2(
       this.video.clientWidth,
@@ -34,12 +15,18 @@ class VideoFile {
 
     this.play()
 
-    Loader.loaded()
+    Loader.loaded('📽️ Video ready')
   }
-
   //////////////////////////////////////////////////////////////////////////////
 
-  setVideo() {
+  bind() {
+    this.onVideoLoaded = this.onVideoLoaded.bind(this)
+  }
+
+  init(callback) {
+    this.bind()
+
+    this.onLoadedSuccess = callback
     this.video = document.getElementById('video')
     this.video.src = videoSrc
     this.video.load()
@@ -86,4 +73,5 @@ class VideoFile {
   }
 }
 
-export default VideoFile
+const Video = new _Video()
+export default Video

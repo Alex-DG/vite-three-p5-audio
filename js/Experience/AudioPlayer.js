@@ -1,8 +1,8 @@
-class AudioPlayer {
-  constructor(options) {
-    this.audio = options.audio
-    this.video = options.video
+import SoundAnalyse from './SoundAnalyze'
+import VideoFile from './Video'
 
+class AudioPlayer {
+  constructor() {
     this.playing = false
     this.audioEnabled = true
 
@@ -26,19 +26,19 @@ class AudioPlayer {
 
   onVolumeChange(e) {
     const value = e.target.value
-    this.audio.setVolume(value)
+    SoundAnalyse.setVolume(value)
   }
 
   onTogglePlay() {
     if (this.playing) {
-      this.audio?.pause()
-      this.video?.pause()
+      SoundAnalyse.pause()
+      VideoFile.pause()
 
       this.playBtn.innerHTML = '<h1>▶️</h1>'
       this.playing = false
     } else {
-      this.audio?.play()
-      this.video?.play(false)
+      SoundAnalyse.play()
+      VideoFile.play(false)
 
       this.playBtn.innerHTML = '<h1>⏸️</h1>'
       this.playing = true

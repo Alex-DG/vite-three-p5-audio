@@ -6,8 +6,6 @@ class _Loader {
   }
 
   hideLoading() {
-    console.log('✅', 'Assets loaded')
-
     // Enable audio player
     const player = document.querySelector('.player')
     player.classList.remove('loading')
@@ -17,10 +15,13 @@ class _Loader {
     loadingLayout.classList.add('hide')
     setTimeout(() => {
       loadingLayout.style.display = 'none'
+      console.log('✨', 'Experience ready!')
     }, 500)
   }
 
-  loaded() {
+  loaded(item) {
+    console.log('✅', item)
+
     this.itemsLoaded++
 
     if (this.itemsLoaded === this.total) {
