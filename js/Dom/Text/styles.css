@@ -48,7 +48,7 @@
   transition: all 0.5s ease-out;
   -webkit-transition: all 0.5s ease-out;
 
-  font-size: 7vh;
+  font-size: 6vh;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke-width: 3px;
   -webkit-text-stroke-color: rgb(72, 223, 102);

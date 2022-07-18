@@ -14,13 +14,13 @@ let words = [
   'shrine',
   'culture',
   'shinto',
-  'super',
+  'futur',
   '東京',
   'こんにちは',
   'ありがとう',
   'いただきます',
   'merci',
-  'edo',
+  'city',
   'people',
   'busy',
 ]
@@ -39,7 +39,7 @@ class _SoundAnalyse {
         el.style.opacity = 0
         setTimeout(() => {
           el.style.opacity = 1
-          el.style.color = color(random(255), random(255), random(255))
+          // el.style.color = color(random(255), random(255), random(255))
           el.style.padding = `${random(40)}% 0 0 0`
           el.innerHTML = random(words)
         }, random(255) * i)
