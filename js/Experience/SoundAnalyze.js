@@ -109,7 +109,7 @@ class _SoundAnalyse {
       beatDetect.onPeak(this.onTriggerBeat)
 
       this.binWidth = width / bins
-      this.bgColor = color(255, 220, 255)
+      this.bgColor = color(0, 150, 255)
     }
 
     sketch.draw = () => {

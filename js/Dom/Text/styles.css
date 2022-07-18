@@ -60,11 +60,11 @@
 }
 .text > #t2 {
   padding: 40% 0 0 0;
-  -webkit-text-stroke-color: rgb(72, 143, 223);
+  -webkit-text-stroke-color: rgb(255, 255, 255);
   text-shadow: 7px 7px #ff1f8f, 11px 11px #000;
 }
 .text > #t3 {
   padding: 15% 0 0 0;
-  -webkit-text-stroke-color: rgb(237, 192, 47);
+  -webkit-text-stroke-color: rgb(221, 255, 0);
   text-shadow: 7px 7px #ff1f8f, 11px 11px #000;
 }
