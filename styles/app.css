@@ -8,8 +8,6 @@ body {
   height: 100vh;
   overflow: hidden;
   font-family: Arial, Helvetica, Arial, sans-serif;
-  /* background-color: rgb(27, 27, 31); */
-  background-color: rgb(255 220 255);
 }
 
 #app > .container {

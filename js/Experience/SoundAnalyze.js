@@ -10,10 +10,9 @@ class _SoundAnalyse {
   }
 
   onTriggerBeat() {
-    const r = random(255)
-    const g = random(255)
-    const b = random(200)
-    document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`
+    if (this.audio.currentTime() > 7) {
+      this.bgColor = color(random(255), random(255), random(255))
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -31,6 +30,19 @@ class _SoundAnalyse {
     this.audio?.setVolume(volume)
   }
 
+  drawFFT() {
+    noStroke()
+    for (let i = 0; i < this.spectrum.length; i++) {
+      let y = map(this.spectrum[i] * 0.65, 0, 255, height, 0)
+      push()
+      stroke(0)
+      strokeWeight(2.1)
+      fill(255)
+      rect(i * this.binWidth, y, this.binWidth, height - y)
+      pop()
+    }
+  }
+
   //////////////////////////////////////////////////////////////////////////////
 
   play() {
@@ -44,26 +56,37 @@ class _SoundAnalyse {
   //////////////////////////////////////////////////////////////////////////////
 
   start() {
-    const { sketch } = this
+    const { sketch, bins } = this
 
-    let fft, amp, beatDetect
+    let fft, beatDetect, amp, canvas
 
     sketch.preload = () => {
       loadSound(audioSrc, this.onAudioLoaded)
     }
+
     sketch.setup = () => {
       canvas = createCanvas(windowWidth, windowHeight)
       canvas.parent('p5')
 
+      // Sound analysis tools
+      fft = new p5.FFT(0.5, bins)
       amp = new p5.Amplitude()
-      fft = new p5.FFT()
-      beatDetect = new p5.PeakDetect(20, 20000, 0.3)
 
+      // Peak detection
+      beatDetect = new p5.PeakDetect(0, 20000, 0.035)
       beatDetect.onPeak(this.onTriggerBeat)
+
+      this.binWidth = width / bins
+      this.bgColor = color(255, 220, 255)
     }
 
     sketch.draw = () => {
-      fft.analyze()
+      background(this.bgColor)
+
+      // Start FFT
+      this.spectrum = fft.analyze()
+      this.drawFFT()
+
       beatDetect.update(fft)
 
       const volume = amp.getLevel() // 0 to 1
@@ -73,7 +96,6 @@ class _SoundAnalyse {
       // Sphere
       this.smapA = map(volume, 0, 0.2, 0, 0.5)
       this.smapF = map(freq, 0, 1, 0, 10)
-
       // Plane
       this.mapA = map(volume, 0, 1, 0, 0.056)
       this.mapF = map(freq, 0, 1, 0, 6)
@@ -88,7 +110,11 @@ class _SoundAnalyse {
 
   init(s) {
     this.sketch = s
+    this.bins = 64
+    this.binWidth = 0
     this.currentVolume = 1.0
+    this.bgColor = 0
+    this.spectrum = new Array(64).fill(0)
 
     this.bind()
     this.start()

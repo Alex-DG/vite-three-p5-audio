@@ -101,6 +101,7 @@ class Experience {
     const geometry = new THREE.SphereBufferGeometry(4.5, segments, segments)
     this.sphereMaterial = new SphereMaterial()
     this.sphere = new THREE.Mesh(geometry, this.sphereMaterial)
+    this.sphere.position.x = 1.25
     this.sphere.position.z = -6
     this.scene.add(this.sphere)
   }

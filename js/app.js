@@ -11,20 +11,20 @@ console.log('🎉', 'Project generated using vite-three-starter')
 console.log(':: https://github.com/Alex-DG/vite-three-starter ::')
 
 /**
+ * Dom
+ */
+document.querySelector('#app').innerHTML = `
+ ${Loading}
+ ${Player}
+ ${Credits}
+ ${Video}
+`
+
+/**
  * P5js
  */
 const sketch = window
 window.p5 = p5
-
-/**
- * Dom
- */
-document.querySelector('#app').innerHTML = `
-    ${Loading}
-    ${Player}
-    ${Credits}
-    ${Video}
-`
 
 /**
  * Experience
