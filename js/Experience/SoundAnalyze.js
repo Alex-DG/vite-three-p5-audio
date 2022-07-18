@@ -1,7 +1,29 @@
 import Loader from './Loader'
 
-// import audioSrc from '../../assets/audio/03.mp3'
 import audioSrc from '../../assets/audio/Duh Fuse_French Fuse.mp3'
+
+let words = [
+  'Bonjour',
+  'Tokyo',
+  '伝承',
+  'travel',
+  'modern',
+  'おやすみ',
+  'neon',
+  'temples',
+  'shrine',
+  'culture',
+  'shinto',
+  'super',
+  '東京',
+  'こんにちは',
+  'ありがとう',
+  'いただきます',
+  'merci',
+  'edo',
+  'people',
+  'busy',
+]
 
 class _SoundAnalyse {
   onAudioLoaded(audio) {
@@ -12,6 +34,16 @@ class _SoundAnalyse {
   onTriggerBeat() {
     if (this.audio.currentTime() > 7) {
       this.bgColor = color(random(255), random(255), random(255))
+
+      this.texts.forEach((el, i) => {
+        el.style.opacity = 0
+        setTimeout(() => {
+          el.style.opacity = 1
+          el.style.color = color(random(255), random(255), random(255))
+          el.style.padding = `${random(40)}% 0 0 0`
+          el.innerHTML = random(words)
+        }, random(255) * i)
+      })
     }
   }
 
@@ -110,11 +142,14 @@ class _SoundAnalyse {
 
   init(s) {
     this.sketch = s
+
     this.bins = 64
     this.binWidth = 0
     this.currentVolume = 1.0
     this.bgColor = 0
     this.spectrum = new Array(64).fill(0)
+
+    this.texts = [...document.querySelectorAll('.text span')]
 
     this.bind()
     this.start()

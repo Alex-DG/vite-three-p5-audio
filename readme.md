@@ -25,6 +25,6 @@ TODO:
 [X] optimise assets
 [ ] add text effects
 [X] refactor merge p5js with three js
-[ ] add rec in background
+[X] add rec in background
 [X] fix bug: music end before video
 [X] Loader

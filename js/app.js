@@ -4,6 +4,7 @@ import { Loading } from './Dom/Loading'
 import { Player } from './Dom/Player'
 import { Credits } from './Dom/Credits'
 import { Video } from './Dom/Video'
+import { Text } from './Dom/Text'
 
 import Experience from './Experience'
 
@@ -18,6 +19,7 @@ document.querySelector('#app').innerHTML = `
  ${Player}
  ${Credits}
  ${Video}
+ ${Text}
 `
 
 /**
