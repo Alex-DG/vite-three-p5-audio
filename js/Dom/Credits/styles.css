@@ -2,7 +2,7 @@
   position: fixed;
   right: 0;
   bottom: 0;
-  z-index: 3;
+  z-index: 4;
 
   margin: 1em;
 
@@ -12,13 +12,13 @@
   gap: 0.2em;
 
   font-style: italic;
-  color: rgb(27, 27, 31, 78%);
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .credits > span > a {
-  color: rgb(27, 27, 31, 78%);
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .credits > span > a:hover {
-  color: rgb(27, 27, 31);
+  color: rgb(255, 51, 218);
 }

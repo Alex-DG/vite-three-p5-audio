@@ -79,7 +79,7 @@ class Experience {
       0.1,
       100
     )
-    this.camera.position.z = 2
+    this.camera.position.z = 2.25
     this.scene.add(this.camera)
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -146,11 +146,9 @@ class Experience {
     if (this.player.playing) {
       this.sphereMaterial.uniforms.uFrequency.value = SoundAnalyse.smapF
       this.sphereMaterial.uniforms.uAmplitude.value = SoundAnalyse.smapA
-      this.sphereMaterial.wireframe = true
     } else {
       this.sphereMaterial.uniforms.uFrequency.value = 0
       this.sphereMaterial.uniforms.uAmplitude.value = 0
-      this.sphereMaterial.wireframe = false
     }
   }
 

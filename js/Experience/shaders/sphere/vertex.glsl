@@ -6,6 +6,7 @@ uniform float uNoiseDensity;
 uniform float uNoiseStrength;
 
 varying float vDistort;
+varying vec2 vUv;
 varying vec3 vNormal;
 varying float vDisplacement;
 varying float vNoise;
@@ -218,4 +219,5 @@ void main() {
   vNoise = pnoise(normal, vec3(0.0, 0.0, 0.0));
   vDisplacement = displacement;
   vDistort = distortion;
+  vUv = uv;
 }
