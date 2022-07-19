@@ -18,15 +18,3 @@ yarn dev
 # Build for production in the dist/ directory
 yarn build
 ```
-
-TODO:
-
-[X] find a music
-[X] add bottom credits
-[X] add volume controller
-[X] optimise assets
-[ ] add text effects
-[X] refactor merge p5js with three js
-[X] add rec in background
-[X] fix bug: music end before video
-[X] Loader
