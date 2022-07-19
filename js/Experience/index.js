@@ -146,9 +146,11 @@ class Experience {
     if (this.player.playing) {
       this.sphereMaterial.uniforms.uFrequency.value = SoundAnalyse.smapF
       this.sphereMaterial.uniforms.uAmplitude.value = SoundAnalyse.smapA
+      this.sphereMaterial.wireframe = true
     } else {
       this.sphereMaterial.uniforms.uFrequency.value = 0
       this.sphereMaterial.uniforms.uAmplitude.value = 0
+      this.sphereMaterial.wireframe = false
     }
   }
 
@@ -158,11 +160,9 @@ class Experience {
     if (this.player.playing) {
       this.planeMaterial.uniforms.uFrequency.value = SoundAnalyse.mapF
       this.planeMaterial.uniforms.uAmplitude.value = SoundAnalyse.mapA
-      this.planeMaterial.uniforms.uSpeed.value = 0.05
     } else {
       this.planeMaterial.uniforms.uFrequency.value = 0
       this.planeMaterial.uniforms.uAmplitude.value = 0
-      this.planeMaterial.uniforms.uSpeed.value = 0
     }
   }
 

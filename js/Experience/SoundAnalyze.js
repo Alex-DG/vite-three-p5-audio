@@ -3,7 +3,8 @@ import Loader from './Loader'
 import audioSrc from '../../assets/audio/Duh Fuse_French Fuse.mp3'
 
 let words = [
-  'Bonjour',
+  '日本',
+  'Salut',
   'Tokyo',
   '伝承',
   'travel',
@@ -13,7 +14,6 @@ let words = [
   'temples',
   'shrine',
   'culture',
-  'shinto',
   'futur',
   '東京',
   'こんにちは',
@@ -22,7 +22,13 @@ let words = [
   'merci',
   'city',
   'people',
-  'busy',
+  'commute',
+  'torii',
+  '鳥居',
+  'ramen',
+  'ラーメン',
+  'すし',
+  'sushi',
 ]
 
 class _SoundAnalyse {
